@@ -1,5 +1,5 @@
 Package.describe({
-	name: 'orionjs:pages',
+	name: 'robwatkin:pages',
 	summary: 'Pages for Orion CMS',
 	version: '1.0.1',
 	git: 'https://github.com/orionjs/pages'
@@ -37,4 +37,5 @@ Package.onUse(function(api) {
 		'pages_client.js',
 		], 'client');
 
+	api.addFiles('templates.html', 'client')
 });

@@ -154,18 +154,25 @@ orion.pages.tabular = new Tabular.Table({
  */
 Meteor.startup(function(){
   Router.route('/:url', function() {
+
+    this.notFoundTemplate = 'hideNotFound';
+
     this.subscribe('pages', { url: this.params.url }).wait();
     Tracker.autorun((function(self) {
       return function() {
         // Subscription to the page is available
         if (self.ready()) {
           var page = orion.pages.collection.findOne({ url: self.params.url });
-          var template = orion.pages.templates[page.template];
           if (page) {
+            // this is a bug - it throws page not found in collection
+            var template = orion.pages.templates[page.template];
             if (template.layout) {
               self.layout(template.layout);
             }
             self.render(page.template, {data: page});
+          }
+          else {
+            self.render('originalNotFound');
           }
         // Subscription to pages is not already available
         } else {
